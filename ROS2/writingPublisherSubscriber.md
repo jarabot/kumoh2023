@@ -27,7 +27,7 @@ ros2 pkg create --build-type ament_cmake cpp_pubsub
 ### 2-2 publisher node 작성하기
 * 아래 명령 실행하여 talker 코드 다운받기 (ros2_ws/src/cpp_pubsub/src 아래)
 ```bash
-wget -O publisher_member_function.cpp https://raw.githubusercontent.com/ros2/examples/foxy/rclcpp/topics/minimal_publisher/member_function.cpp
+wget -O publisher_member_function.cpp https://raw.githubusercontent.com/ros2/examples/humble/rclcpp/topics/minimal_publisher/member_function.cpp
 ```
 
 * Visual Studio Code로 publisher_member_function.cpp 파일 열기
@@ -145,7 +145,7 @@ ament_package()
 ### 2-3 subscriber node 작성하기
 * 다음 node를 생성하기 위해서 ros2_ws/src/cpp_pubsub/src로 이동하여 아래 명령 실행하기
 ```bash
-wget -O subscriber_member_function.cpp https://raw.githubusercontent.com/ros2/examples/foxy/rclcpp/topics/minimal_subscriber/member_function.cpp
+wget -O subscriber_member_function.cpp https://raw.githubusercontent.com/ros2/examples/humble/rclcpp/topics/minimal_subscriber/member_function.cpp
 ```
 
 * 파일 확인하기 위해 ls명령 실행
@@ -207,7 +207,7 @@ install(TARGETS
 ### 2-4 빌드 및 실행
 * ~/ros2_ws 로 이동하여 rosdep 실행하기 (의존성 설치)
 ```bash
-rosdep install -i --from-path src --rosdistro foxy -y
+rosdep install -i --from-path src --rosdistro humble -y
 ```
 
 * 특정 package만 빌드하기

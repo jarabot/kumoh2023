@@ -14,7 +14,7 @@
     * ex) wheel motor 제어, lidar의 센서 데이터를 publish하기, ...
   * 각 node는 다른 nodes와 data를 주고 받는다. 주고 받는 방식으로는 topics, services, actions이 있다.
 
-![](https://docs.ros.org/en/foxy/_images/Nodes-TopicandService.gif)
+![](https://docs.ros.org/en/humble/_images/Nodes-TopicandService.gif)
 
 * 즉 robotics system은 이렇게 수많은 nodes로 구성되어 돌아가는 system이다.
 

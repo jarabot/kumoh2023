@@ -26,7 +26,7 @@ ros2 pkg create --build-type ament_python py_pubsub
 * 아래 명령으로 talker 코드 다운받기
 ```bash
 cd ~/ros2_ws/src/py_pubsub/py_pubsub
-wget https://raw.githubusercontent.com/ros2/examples/foxy/rclpy/topics/minimal_publisher/examples_rclpy_minimal_publisher/publisher_member_function.py
+wget https://raw.githubusercontent.com/ros2/examples/humble/rclpy/topics/minimal_publisher/examples_rclpy_minimal_publisher/publisher_member_function.py
 ```
 
 * Visual Studio Code로 다운받은 publisher_member_function.py 파일 열어보기 (같은 폴더에 __init__.py 있음)
@@ -124,7 +124,7 @@ install-scripts=$base/lib/py_pubsub
 ### 2-3 subscriber node 작성하기
 * 새 node를 생성하기 위해서 ros2_ws/src/py_pubsub/py_pubsub 로 이동하고 아래 명령 실행
 ```bash
-wget https://raw.githubusercontent.com/ros2/examples/foxy/rclpy/topics/minimal_subscriber/examples_rclpy_minimal_subscriber/subscriber_member_function.py
+wget https://raw.githubusercontent.com/ros2/examples/humble/rclpy/topics/minimal_subscriber/examples_rclpy_minimal_subscriber/subscriber_member_function.py
 ```
 * 명령 실행 후 디렉토리 내부 파일 (subscriber_member_function.py 추가된 것을 확인 목적)
 ```
@@ -187,7 +187,7 @@ entry_points={
 * 먼저 의존성 체크하기
 ```bash
 cd ~/ros2_ws
-rosdep install -i --from-path src --rosdistro foxy -y
+rosdep install -i --from-path src --rosdistro humble -y
 ```
 
 * 새 package 빌드하기

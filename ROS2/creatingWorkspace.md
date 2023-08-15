@@ -20,7 +20,7 @@
 ### 2-1 ROS2 환경 source 하기
 
 ```bash
-source /opt/ros/foxy/setup.bash
+source /opt/ros/humble/setup.bash
 ```
 ### 2-2 새 directory 생성하기
 * ros2_ws
@@ -35,7 +35,7 @@ cd ~/ros2_ws/src
 * ros2_ws/src 디렉토리 내부에 소스 받아오기
 ```bash
 cd ~/ros2_ws/src
-git clone https://github.com/ros/ros_tutorials.git -b foxy-devel
+git clone https://github.com/ros/ros_tutorials.git -b humble-devel
 ```
 
 ### 2-4 의존성 해결
@@ -44,7 +44,7 @@ git clone https://github.com/ros/ros_tutorials.git -b foxy-devel
    * ROS 2의 경우 package에 따라서 빌드 시간이 올래 걸릴 수 있음. 실컷 10분 빌드하고 나서 의존성에 문제가 있다는 것을 알게 되면 수정 후 다시 빌드해야하므로 시간을 낭비하게 됨.
 * 의존성 설치 명령
 ```bash
-rosdep install -i --from-path src --rosdistro foxy -y
+rosdep install -i --from-path src --rosdistro humble -y
 ```
 
 * 결과
@@ -86,7 +86,7 @@ build  install  log  src
 * 빌드 후에 새 터미널에서 빌드한 workspace에 대해서 환경설정(overlay source)
 * ROS 2 환경을 source (underlay)
 ```
-source /opt/ros/foxy/setup.bash
+source /opt/ros/humble/setup.bash
 ```
 
 * workspace로 이동
@@ -130,7 +130,7 @@ ros2 run turtlesim turtlesim_node
 
 * 결과
 
-![](https://docs.ros.org/en/foxy/_images/overlay.png)
+![](https://docs.ros.org/en/humble/_images/overlay.png)
 
    * "MyTurtleSim" 타이틀 확인하기
 
@@ -141,6 +141,6 @@ ros2 run turtlesim turtlesim_node
 
 * 결과
 
-![](https://docs.ros.org/en/foxy/_images/underlay.png)
+![](https://docs.ros.org/en/humble/_images/underlay.png)
 
    * overlay에 수정은 underlay에 영향을 주지 않는다!

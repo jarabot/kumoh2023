@@ -168,7 +168,7 @@ ament_package()
 * 의존성 설치
 ```bash
 cd ~/ros2_ws
-rosdep install -i --from-path src --rosdistro foxy -y
+rosdep install -i --from-path src --rosdistro humble -y
 ```
 
 * 빌드하기 (cpp_srvcli package만)

@@ -83,7 +83,7 @@ install(TARGETS
 * 의존성 확인하는 명령 실행
 ```bash
 cd ~/ros2_ws
-rosdep install -i --from-path src --rosdistro foxy -y
+rosdep install -i --from-path src --rosdistro humble -y
 ```
 
 * 새 package를 빌드하기

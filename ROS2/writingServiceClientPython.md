@@ -149,7 +149,7 @@ entry_points={
 ### 2-4 빌드 및 실행
 * 의존성 검사하기
 ```bash
-rosdep install -i --from-path src --rosdistro foxy -y
+rosdep install -i --from-path src --rosdistro humble -y
 ```
 
 * py_srvcli package 빌드하기

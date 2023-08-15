@@ -25,7 +25,7 @@
 ```bash
 sudo apt update
 
-sudo apt install ros-foxy-turtlesim
+sudo apt install ros-humble-turtlesim
 ```
 
 * package 설치 여부 확인
@@ -46,7 +46,7 @@ turtlesim turtlesim_node
 ```bash
 ros2 run turtlesim turtlesim_node
 ```
-![](https://docs.ros.org/en/foxy/_images/turtlesim.png)
+![](https://docs.ros.org/en/humble/_images/turtlesim.png)
 
 * 터미널 출력 결과
 ```
@@ -81,7 +81,7 @@ ros2 action list
 ```bash
 sudo apt update
 
-sudo apt install ~nros-foxy-rqt*
+sudo apt install ~nros-humble-rqt*
 ```
 
 * rqt 실행하기
@@ -92,24 +92,24 @@ rqt
 ### 2-5 rqt 사용하기
 * 상단 메뉴 Plugins > Services > Service Caller 로 이동
 
-![](https://docs.ros.org/en/foxy/_images/rqt.png)
+![](https://docs.ros.org/en/humble/_images/rqt.png)
 
 * spawn service 해보기
 
-![](https://docs.ros.org/en/foxy/_images/spawn.png)
+![](https://docs.ros.org/en/humble/_images/spawn.png)
   * 새로운 turtle을 생성
   * 새로운 turtle의 이름과 위치를 설정 가능
 
 * set_pen service 해보기
   * turtle1에게 pen을 부여하기 - /set_pen service 이용
 
-![](https://docs.ros.org/en/foxy/_images/set_pen.png)
+![](https://docs.ros.org/en/humble/_images/set_pen.png)
   * rgb : red, green, blue 설정해보기
   * turtle_teleop 터미널 창에서 화살표 키보드 눌러서 이동시키기
 
 * 결과
 
-![](https://docs.ros.org/en/foxy/_images/new_pen.png)
+![](https://docs.ros.org/en/humble/_images/new_pen.png)
 
 
 ### 2-6 Remapping

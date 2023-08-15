@@ -1,7 +1,7 @@
 # 목차
 * [ROS2 최신](https://static.sched.com/hosted_files/px4devsummit2022/14/Katherine%20PX4.pdf?_gl=1*le0shw*_ga*MTQ4Nzk1MC4xNjg4NzkxMTM4*_ga_XH5XM35VHB*MTY4ODc5MTEzNy4xLjEuMTY4ODc5MzAxMC4wLjAuMA..)
 * 개발 환경
-  * [foxy ROS 2 설치](https://docs.ros.org/en/foxy/Installation/Ubuntu-Install-Debians.html)
+  * [humble ROS 2 설치](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html)
   * Visual Studio Code 설치
   * 다중 터미널 프로그램
     * [terminator](./terminator.md)

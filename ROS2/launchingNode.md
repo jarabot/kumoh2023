@@ -40,7 +40,7 @@ def generate_launch_description():
 
 * 결과 (2개 turtlesim nodes 실행)
 
-![](https://docs.ros.org/en/foxy/_images/turtlesim_multisim.png)
+![](https://docs.ros.org/en/humble/_images/turtlesim_multisim.png)
 
 
 ### 2-2 turtlesim nodes 제어하기
@@ -57,4 +57,4 @@ ros2 topic pub  /turtlesim2/turtle1/cmd_vel geometry_msgs/msg/Twist "{linear: {x
 
 * 결과
 
-![](https://docs.ros.org/en/foxy/_images/turtlesim_multisim_spin.png)
+![](https://docs.ros.org/en/humble/_images/turtlesim_multisim_spin.png)

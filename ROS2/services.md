@@ -14,11 +14,11 @@
 * services : client가 요청하면 그 요청에 따라서 server가 data를 제공
 
 * 1개 service server와 1개 service client (아래 그림)
-![](https://docs.ros.org/en/foxy/_images/Service-SingleServiceClient.gif)
+![](https://docs.ros.org/en/humble/_images/Service-SingleServiceClient.gif)
 
 * 1개 service server와 n개 service client 동작 (아래 그림)
 
-![](https://docs.ros.org/en/foxy/_images/Service-MultipleServiceClient.gif)
+![](https://docs.ros.org/en/humble/_images/Service-MultipleServiceClient.gif)
 
 ## 2. 실습
 ### 2-1 환경설정
@@ -199,7 +199,7 @@ ros2 service call /clear std_srvs/srv/Empty
 
 * 결과
 
-![](https://docs.ros.org/en/foxy/_images/clear.png)
+![](https://docs.ros.org/en/humble/_images/clear.png)
    * turtlesim 창을 clear하는 명령
 
 * /spawn service 호출하는 명령 실행(YAML 문법 사용)
@@ -215,4 +215,4 @@ response:
 turtlesim.srv.Spawn_Response(name='turtle2')
 ```
 
-![](https://docs.ros.org/en/foxy/_images/spawn1.png)
+![](https://docs.ros.org/en/humble/_images/spawn1.png)

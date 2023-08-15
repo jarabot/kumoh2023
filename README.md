@@ -23,11 +23,15 @@
 * [ROS 2 action 구현 C++/Python](./ROS2/writingActionServerClient.md)
 
 ### 2-1 2일차
-* [시뮬레이션 SLAM]()
-* [시뮬레이션 Navigation]()
-* [Jarabot 설정]()
-* [Jarabot SLAM]()
-* [Jarabot Navigation]()
+* [Cartographer 이해](./SLAM/cartographer.md)
+* [Navigation 이해](./SLAM/nav2.md)
+* [시뮬레이션 SLAM](./SLAM/simulation_slam.md)
+* [시뮬레이션 Navigation](./SLAM/simulation_nav.md)
+* [Jarabot 설정](./jarabot/setup.md)
+* [Jarabot 휠 동작](./jarabot/wheelcontrol.md)
+* [Jarabot 키보드로 조작](./jarabot/moving.md)
+* [Jarabot SLAM](./SLAM/jarabot_slam.md)
+* [Jarabot Navigation](./SLAM/jarabot_nav.md)
 
 ### 2-1 3일차
 * 대회

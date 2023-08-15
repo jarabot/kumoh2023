@@ -24,7 +24,7 @@ ros2 run rqt_console rqt_console
 
 * 결과
 
-![](https://docs.ros.org/en/foxy/_images/console.png)
+![](https://docs.ros.org/en/humble/_images/console.png)
 
 * 새 터미널에서 turtlesim 구동시키기 명령 실행
 ```bash
@@ -43,7 +43,7 @@ ros2 topic pub -r 1 /turtle1/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 2.0, 
 * rqt_console
   * 'Warn' 레벨 이상의 메시지를 계속 확인 가능
 
-![](https://docs.ros.org/en/foxy/_images/warn.png)
+![](https://docs.ros.org/en/humble/_images/warn.png)
 
 
 * ros2 topic pub 명령을 실행하고 있는 터미널에서 Ctrl+C 로 종료시키기

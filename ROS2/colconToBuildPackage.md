@@ -24,7 +24,7 @@ cd ~/ros2_ws
 * 예제 코드를 src에 추가하기
 ```bash
 cd ~/ros2_ws
-git clone https://github.com/ros2/examples src/examples -b foxy
+git clone https://github.com/ros2/examples src/examples -b humble
 ```
 
 * 결과 : workspace 내부 구조
@@ -43,7 +43,7 @@ git clone https://github.com/ros2/examples src/examples -b foxy
 
 ### 2-1-3 underlay를 source하기
 ```bash
-source /opt/ros/foxy/setup.bash
+source /opt/ros/humble/setup.bash
 ```
 
 ### 2-1-4 workspace 빌드하기

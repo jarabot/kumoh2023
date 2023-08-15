@@ -81,7 +81,7 @@ ros2 param set /turtlesim background_r 150
 Set parameter successful
 ```
 
-![](https://docs.ros.org/en/foxy/_images/set.png)
+![](https://docs.ros.org/en/humble/_images/set.png)
    * 배경색상이 변경
 
 * 주의 :

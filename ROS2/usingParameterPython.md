@@ -77,7 +77,7 @@ entry_points={
 * 의존성 검사하기
 ```bash
 cd ~/ros2_ws
-rosdep install -i --from-path src --rosdistro foxy -y
+rosdep install -i --from-path src --rosdistro humble -y
 ```
 
 * package 빌드하기

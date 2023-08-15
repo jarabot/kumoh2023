@@ -23,7 +23,7 @@
   * client-server model
   * client가 server에게 goal을 전송하고 server는 ack, feedback, result를 전송
 
-![](https://docs.ros.org/en/foxy/_images/Action-SingleActionClient.gif)
+![](https://docs.ros.org/en/humble/_images/Action-SingleActionClient.gif)
 
 ## 2. 실습
 ### 2-1 설정

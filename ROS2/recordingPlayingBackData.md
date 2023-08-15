@@ -15,9 +15,9 @@
 
 * 준비
 ```bash
-sudo apt-get install ros-foxy-ros2bag \
-                     ros-foxy-rosbag2-converter-default-plugins \
-                     ros-foxy-rosbag2-storage-default-plugins
+sudo apt-get install ros-humble-ros2bag \
+                     ros-humble-rosbag2-converter-default-plugins \
+                     ros-humble-rosbag2-storage-default-plugins
 ```
 
 ## 2. 실습
@@ -99,7 +99,7 @@ ros2 bag record /turtle1/cmd_vel
 * ros2 bag 명령으로 /turtle1/cmd_vel topic에서 publish되는 data를 기록하기 시작한다. teleop 터미널로 와서 turtle 이동시키기. 
 * 나중에 replay를 위해서 움직인 패턴을 기억해 두자!
 
-![](https://docs.ros.org/en/foxy/_images/record.png)
+![](https://docs.ros.org/en/humble/_images/record.png)
 
    * 저장되는 data 파일 형태 : rosbag2_year_month_day-hour_minute_second
    * 추가로 metadata.yaml 파일을 포함
@@ -162,5 +162,5 @@ ros2 bag play subset
 [INFO] [rosbag2_storage]: Opened database 'subset'.
 ```
 
-![](https://docs.ros.org/en/foxy/_images/playback.png)
+![](https://docs.ros.org/en/humble/_images/playback.png)
 

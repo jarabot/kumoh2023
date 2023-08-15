@@ -17,11 +17,11 @@
   * topics = bus 
   * 각 node가 data를 교환하는 bus (아래 그림)
 
-![](https://docs.ros.org/en/foxy/_images/Topic-SinglePublisherandSingleSubscriber.gif)
+![](https://docs.ros.org/en/humble/_images/Topic-SinglePublisherandSingleSubscriber.gif)
 
   * node는 여러 data를 동시에 publish/subscribe가 가능하다. (아래 그림)
 
-![](https://docs.ros.org/en/foxy/_images/Topic-MultiplePublisherandMultipleSubscriber.gif)
+![](https://docs.ros.org/en/humble/_images/Topic-MultiplePublisherandMultipleSubscriber.gif)
 
   * nodes 사이에 data를 이동시키는 가장 일반적인 방법
 
@@ -51,7 +51,7 @@ rqt_graph
 * rqt를 이용한 rqt_graph 여는 방법
   * Plugins > Introspection > Node Graph
 
-![](https://docs.ros.org/en/foxy/_images/rqt_graph.png)
+![](https://docs.ros.org/en/humble/_images/rqt_graph.png)
 
 
 * Quiz :
@@ -118,7 +118,7 @@ angular:
 
 * Hide -> Debug 체크박스 해하기
 
-![](https://docs.ros.org/en/foxy/_images/debug.png)
+![](https://docs.ros.org/en/humble/_images/debug.png)
 
 * 위 그림에서 /_ros2cli_26646 는 echo 명령으로 생성된 node
   * /turtle1/cmd_vel topic으로 publish되는 data를 2개 node에서 subscribe하고 있다.(/turtlesim, /_ros2cli_26646 node)
@@ -203,7 +203,7 @@ publisher: beginning loop
 publishing #1: geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=2.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=1.8))
 ```
 
-![](https://docs.ros.org/en/foxy/_images/pub_once.png)
+![](https://docs.ros.org/en/humble/_images/pub_once.png)
 
 
 * turtle이 계속 움직이게 하는 명령을 수행시킬려면 아래와 같은 명령을 수행
@@ -215,12 +215,12 @@ ros2 topic pub --rate 1 /turtle1/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 2
 
 * 결과
 
-![](https://docs.ros.org/en/foxy/_images/pub_stream.png)
+![](https://docs.ros.org/en/humble/_images/pub_stream.png)
 
 
 * rqt_graph 갱신한 화면(아래 그림)
 
-![](https://docs.ros.org/en/foxy/_images/rqt_graph2.png)
+![](https://docs.ros.org/en/humble/_images/rqt_graph2.png)
 
 
 * 마지막으로 echo 명령을 실행해 보자.
