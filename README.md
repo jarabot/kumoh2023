@@ -1,4 +1,7 @@
-# kumoh2023
+# JaraBot을 이용한 ROS 2 SLAM 이해 - (금오공대 2023)
+
+![](https://avatars.githubusercontent.com/u/142007781?s=400&u=3051e39dae4470600bf72bf50abb36fc15692e12&v=4)
+
 1. 준비물
 2. 목차
 ## 1. 준비물
