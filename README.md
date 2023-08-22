@@ -24,6 +24,7 @@
 * [ROS 2 pub/sub 구현 C++/Python](./ROS2/writingPublisherSubscriber.md)
 * [ROS 2 service 구현 C++/Python](./ROS2/writingServiceClient.md)
 * [ROS 2 action 구현 C++/Python](./ROS2/writingActionServerClient.md)
+* 기타 등등 추가
 
 ### 2-1 2일차
 * [Cartographer 이해](./SLAM/cartographer.md)
