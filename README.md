@@ -32,6 +32,7 @@
 * [시뮬레이션 SLAM](./SLAM/simulation_slam.md)
 * [시뮬레이션 Navigation](./SLAM/simulation_nav.md)
 * [Jarabot 설정](./jarabot/setup.md)
+* [Jarabot Source Repo](https://github.com/jarabot/jarabot)
 * [Jarabot 휠 동작](./jarabot/wheelcontrol.md)
 * [Jarabot 키보드로 조작](./jarabot/moving.md)
 * [Jarabot SLAM](./SLAM/jarabot_slam.md)
