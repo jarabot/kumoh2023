@@ -27,7 +27,7 @@
 * 기타 등등 추가
 
 ### 2-1 2일차
-* [Cartographer 이해](./SLAM/cartographer.md)
+* [Cartographer 이해](./Cartographer/README.md)
 * [Navigation 이해](./SLAM/nav2.md)
 * [시뮬레이션 SLAM](./SLAM/simulation_slam.md)
 * [시뮬레이션 Navigation](./SLAM/simulation_nav.md)
