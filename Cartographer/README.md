@@ -3,6 +3,9 @@
 
 ![](https://raw.githubusercontent.com/cartographer-project/cartographer/master/docs/source/high_level_system_overview.png)
 
+* 그림 읽는 방법
+  * 그림 해석해보기
+
 ## 구성
 1. Input
 2. Local SLAM
