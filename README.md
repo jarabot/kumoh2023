@@ -12,21 +12,28 @@
 * ROS 2 humble 버전 설치
   * 설치방법 : [링크 참조](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html)
 
+* JaraBot
 ## 2. 목차
 1. 1일차
 2. 2일차
 3. 3일차
 
-### 2-1 1일차
+### 1일차
 * [개발 환경 설정 확인](./ROS2/환경설정.md)
 * [CLI 도구 사용법 Quick 리뷰](./ROS2/turtlesim_ros2_rqt.md)
 * [ROS 2 핵심 개념 Quick 리뷰](./ROS2/nodes.md)
-* [ROS 2 pub/sub 구현 C++/Python](./ROS2/writingPublisherSubscriber.md)
-* [ROS 2 service 구현 C++/Python](./ROS2/writingServiceClient.md)
-* [ROS 2 action 구현 C++/Python](./ROS2/writingActionServerClient.md)
-* 기타 등등 추가
+* [pub/sub 구현 C++/Python](./ROS2/writingPublisherSubscriber.md)
+* [service 구현 C++/Python](./ROS2/writingServiceClient.md)
+* [Custom msg와 srv 파일 생성]()
+* [Custom Interfaces 구현하기]()
+* [Parameter 사용하기 C++]()
+* [Parameter 사용하기 Python]()
+* [Plugins 생성 및 사용하기 C++]()
+* [action 생성하기]()
+* [action server/client 작성 C++](./ROS2/writingActionServerClient.md)
+* [action server/client 작성 Python](./ROS2/writingActionServerClient.md)
 
-### 2-1 2일차
+### 2일차
 * [Cartographer 이해](./Cartographer/README.md)
 * [Navigation 이해](./Navigation/README.md)
 * [시뮬레이션 SLAM](./SLAM/simulation_slam.md)
@@ -37,8 +44,9 @@
 * [Jarabot 키보드로 조작](./jarabot/moving.md)
 * [Jarabot SLAM](./SLAM/jarabot_slam.md)
 * [Jarabot Navigation](./SLAM/jarabot_nav.md)
+* [Jarabot 실습](./Exercise/README.md)
 
-### 2-1 3일차
+### 3일차
 * 대회
     * [달려! 달려! JaraBot](./Competition/GoGoJarabot.md)
     * [잘도 피해가는 JaraBot](./Competition/AvoidanceJarabot.md)
