@@ -11,11 +11,19 @@
 
 * [navigation2 git repo](https://github.com/ros-planning/navigation2)
   * 각 부분 살펴보기
-
+* [개발문서](https://github.com/ros-planning/navigation2/tree/main/doc)
+  * [개요 문서](https://github.com/ros-planning/navigation2/blob/main/doc/design/Navigation_2_Overview.pdf)
 ## 구성
 1. BT Navigator Server
 2. Servers : Controller, Planner, Behavior, Smoother, Route
 3. Plugins
 4. Lifecycle Manager
 
+## 1. BT Navigator Server
 
+## 2. Servers
+
+## 3. Plugins
+* [Nav2 Plugins 목록](https://navigation.ros.org/plugins/index.html)
+
+## 4. Lifecycle Manager
