@@ -1,4 +1,5 @@
 # 설정
+* RPLiDAR 및 jarabot ROS 2 패캐지 설치
 ```bash
 sudo apt install ros-humble-serial-driver ros-humble-teleop-twist-keyboard
 
@@ -19,7 +20,10 @@ sudo udevadm trigger
 sudo reboot  # 리부팅하기
 
 ls /dev/     # /dev/ttyUSB0 확인
+```
 
+* Jarabot 관련 node 실행 및 키보드로 움직여보기
+```bash
 source ~/ros2_ws/install/setup.bash
 
 ros2 launch jarabot_node test.launch.py
