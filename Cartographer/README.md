@@ -8,6 +8,9 @@
 
 * [Cartographer-ROS 문서](https://google-cartographer-ros.readthedocs.io/en/latest/algo_walkthrough.html)
 * [Cartographer-ROS github](https://github.com/cartographer-project/cartographer_ros)
+
+[![Video](http://img.youtube.com/vi/L51S2RVu-zc/0.jpg)](http://www.youtube.com/watch?v=L51S2RVu-zc)
+
 ## 구성
 1. Input
 2. Local SLAM
