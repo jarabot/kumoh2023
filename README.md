@@ -60,9 +60,9 @@
 * [Navigation 이해](./Navigation/README.md)
 * [시뮬레이션 SLAM](./SLAM/simulation_slam.md)
 * [시뮬레이션 Navigation](./SLAM/simulation_nav.md)
-* [PC 설정](./)
 * [Jarabot 설정](./jarabot/Setup.md)
-* 준비 완료! 
+* [PC 설정](./jarabot/PCSetup.md)
+* [설정완료 확인](./jarabot/Done.md) 
 * [Jarabot Source Repo](https://github.com/jarabot/jarabot)
 * [Jarabot 휠 동작](./jarabot/wheelcontrol.md)
 * [Jarabot 키보드로 조작](./Exercise/MovingJarabot.md)
