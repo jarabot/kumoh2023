@@ -208,11 +208,11 @@ void loop() {
   analogWrite(MotL_PWM_pin,thrL);
   analogWrite(MotR_PWM_pin,thrR); 
   
-  /*
+  
   Serial.print(leftEncoderPulses);
   Serial.print(",");
   Serial.println(rightEncoderPulses);
-  */
+  
   
 }
 
