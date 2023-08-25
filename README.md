@@ -60,13 +60,14 @@
 * [Navigation 이해](./Navigation/README.md)
 * [시뮬레이션 SLAM](./SLAM/simulation_slam.md)
 * [시뮬레이션 Navigation](./SLAM/simulation_nav.md)
+* [PC 설정](./)
 * [Jarabot 설정](./jarabot/Setup.md)
+* 준비 완료! 
 * [Jarabot Source Repo](https://github.com/jarabot/jarabot)
 * [Jarabot 휠 동작](./jarabot/wheelcontrol.md)
-* [Jarabot 키보드로 조작](./jarabot/moving.md)
-* [Jarabot SLAM](./SLAM/jarabot_slam.md)
-* [Jarabot Navigation](./SLAM/jarabot_nav.md)
-* [Jarabot 실습](./Exercise/README.md)
+* [Jarabot 키보드로 조작](./Exercise/MovingJarabot.md)
+* [JaraBot 지도 생성하기](./Exercise/BuildMap.md)
+* [Jarabot Navigation 하기](./Exercise/DoNavigation.md)
 
 ### 3일차
 * 대회
