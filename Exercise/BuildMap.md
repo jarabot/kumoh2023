@@ -14,14 +14,14 @@
 ```bash
 cd ~/ros2_ws
 source install/setup.bash
-ros2 launch jarabot_node test.launch.py
+ros2 launch jarabot_node bringup.launch.py
 ```
 
 * 새로운 터미널에서
 ```bash
 cd ~/ros2_ws
 source install/setup.bash
-ros2 launch jarabot_cartographer cartographer.launch.py
+ros2 launch jarabot_node cartographer.launch.py
 ```
 
 ##  3. PC에서 실행
@@ -35,7 +35,7 @@ ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args --remap /cmd_vel
 * rviz2 실행
 ```bash
 # 새 터미널 rviz2 실행
-ros2 run rviz2 rviz2 
+rviz2 -d ~/ros2_ws/src/jarabot/jarabot_cartographer/rviz/jarabot_cartographer.rviz
 
 # rviz 설정파일 불러오기
 ros2 run rviz2 rviz2 ~/ros2_ws/src/jarabot/jarabot_cartographer/rviz/jarabot_cartographer.rviz

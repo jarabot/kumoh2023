@@ -17,13 +17,7 @@
 ```bash
 cd ~/ros2_ws
 source install/setup.bash
-ros2 launch jarabot_node test.launch.py
-```
-* 새 터미널에서
-```bash
-cd ~/ros2_ws
-source install/setup.bash
-ros2 launch jarabot_navigation2 navigation2.launch.py map_file:=${HOME}/maps/map.yaml
+ros2 launch jarabot_node navigate.launch.py map:=$HOME/map.yaml
 ```
 
 ## PC에서 실행
@@ -32,21 +26,9 @@ ros2 launch jarabot_navigation2 navigation2.launch.py map_file:=${HOME}/maps/map
 ros2 run rviz2 rviz2 
 
 # 혹은 rviz 설정파일 불러오기
-ros2 run rviz2 rviz2 ~/ros2_ws/src/jarabot/jarabot_cartographer/rviz/jarabot_cartographer.rviz
+rviz2 -d ~/ros2_ws/src/jarabot/jarabot_navigation2/rviz/jarabot_navigation2.rviz
+ros2 run rviz2 rviz2 ~/ros2_ws/src/jarabot/jarabot_navigation2/rviz/jarabot_navigation2.rviz
 ```
-
-## 지도를 로드하여 확인
-* map_server.launch.py 파일에서 map 파일 위치 수정(!)
-```bash
-cd ~/ros2_ws
-source install/setup.bash
-ros2 launch jarabot_node map_server.launch.py
-```
-* rviz2 설정(map 확인을 위해서)
-  * Topic : /map
-    * History : Keep Last
-    * Reliability : Reliable
-    * Durability : Transient Local   
 
 ## Jarabot 이동시키기
 * 2D Pose Estimate 수행

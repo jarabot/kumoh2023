@@ -13,7 +13,7 @@
 ```bash
 cd ~/ros2_ws
 source install/setup.bash
-ros2 launch jarabot_node test.launch.py
+ros2 launch jarabot_node bringup.launch.py
 ```
 
 ##  3. PC(내 노트북)에서 실행
