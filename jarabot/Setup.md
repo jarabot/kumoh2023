@@ -52,14 +52,11 @@ sudo apt install ros-humble-serial-driver ros-humble-teleop-twist-keyboard
 mkdir -p ~/ros2_ws/src
 cd ~/ros2_ws/src
 git clone https://github.com/Slamtec/sllidar_ros2.git
-git clone https://github.com/jebiio/jarabot.git
+git clone https://github.com/jarabot/jarabot.git
 cd ~/ros2_ws
-colcon build
+colcon build --symlink-install
 
 sudo cp ~/ros2_ws/src/jarabot/jarabot_node/rule/99-jarabot.rules /etc/udev/rules.d/
-
-sudo apt install udev
-
 sudo udevadm control --reload-rules
 sudo udevadm trigger
 
