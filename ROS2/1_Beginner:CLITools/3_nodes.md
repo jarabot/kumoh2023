@@ -12,9 +12,11 @@
 * ROS 2에서의 node란?
   * 각 node는 하나의 목적을 가지고 그 목적을 위한 일을 수행하는 책임을 진다.
     * ex) wheel motor 제어, lidar의 센서 데이터를 publish하기, ...
-  * 각 node는 다른 nodes와 data를 주고 받는다. 주고 받는 방식으로는 topics, services, actions이 있다.
+  
+    ![](./node_intro.png)
 
-![](https://docs.ros.org/en/humble/_images/Nodes-TopicandService.gif)
+  * 각 node는 다른 nodes와 data를 주고 받는다. 주고 받는 방식으로는 topics, services, actions이 있다.
+  ![](https://docs.ros.org/en/humble/_images/Nodes-TopicandService.gif)
 
 * 즉 robotics system은 이렇게 수많은 nodes로 구성되어 돌아가는 system이다.
 
