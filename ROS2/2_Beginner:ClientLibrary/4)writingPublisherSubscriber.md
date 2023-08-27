@@ -250,3 +250,77 @@ ros2 run cpp_pubsub listener
 
 * 종료 방법
   * Ctrl + C
+
+# Quiz
+
+### Publisher에서 발행한 거리 값을 Subscriber에서 수신하도록 하는 pub-sub을 C++ 코드를 작성하십시오.
+
+* 참고 사항:
+
+* Publisher 노드의 이름은 "distance_publisher"로, 토픽 이름은 "distance"로 설정합니다.
+* Subscriber 노드의 이름은 "distance_subscriber"로, 토픽 * 이름은 "distance"로 설정합니다.
+* 메시지 타입은 std_msgs/msg/Float64를 사용합니다.
+* Publisher는 1초마다 거리 값을 발행하며, Subscriber는 이 값을 수신하여 화면에 출력합니다.
+
+아래의 코드를 수정하세요 
+distance_publisher.cpp
+```cpp
+
+class DistancePublisher : public rclcpp::Node
+{
+public:
+    DistancePublisher()
+        : Node("distance_publisher")
+    {
+        //publisher_선언 
+        timer_ = this->create_wall_timer(std::chrono::seconds(1), std::bind(&DistancePublisher::publish_distance, this));
+    }
+
+private:
+    void publish_distance()
+    {
+        auto message = std_msgs::msg::Float64();
+
+        // 가상의 거리 값을 설정합니다. 여기서는 3.14로 설정합니다.
+        message.data = 3.14;
+        RCLCPP_INFO(this->get_logger(), "Publishing Distance: %.2f", message.data);
+
+    }
+
+    rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr publisher_;
+    rclcpp::TimerBase::SharedPtr timer_;
+};
+
+int main(int argc, char *argv[])
+{
+    rclcpp::init(argc, argv);
+    rclcpp::spin(std::make_shared<DistancePublisher>());
+    rclcpp::shutdown();
+    return 0;
+}
+
+```
+
+distance_subscriber.cpp
+```cpp
+
+#include "rclcpp/rclcpp.hpp"
+#include "std_msgs/msg/float64.hpp"
+
+void distance_callback(const std_msgs::msg::Float64::SharedPtr msg)
+{
+    RCLCPP_INFO(rclcpp::get_logger("distance_subscriber"), "Received Distance: %.2f", msg->data);
+}
+
+int main(int argc, char *argv[])
+{
+    rclcpp::init(argc, argv);
+    auto node = rclcpp::Node::make_shared("distance_subscriber");
+    auto subscription = node->create_subscription<std_msgs::msg::Float64>(
+        "distance", 10, distance_callback);
+    rclcpp::spin(node);
+    rclcpp::shutdown();
+    return 0;
+}
+
+```

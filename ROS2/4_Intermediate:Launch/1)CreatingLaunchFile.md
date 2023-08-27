@@ -1,4 +1,4 @@
-# [launch 파일 생성하기](https://docs.ros.org/en/humble/Tutorials/Intermediate/Launch/Creating-Launch-Files.html)
+# launch 파일 생성하기
 1. 목표
 2. 배경지식
 3. 사전준비

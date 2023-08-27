@@ -1,4 +1,4 @@
-# [launch 파일을 ROS2 packages로 통합시키기](https://docs.ros.org/en/humble/Tutorials/Intermediate/Launch/Launch-system.html)
+# launch 파일을 ROS2 packages로 통합시키기
 1. 목표
 2. 배경지식
 3. 사전준비
