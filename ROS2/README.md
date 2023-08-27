@@ -30,10 +30,10 @@
   * [colcon 사용해서 packages 빌드하기](./2_Beginner:ClientLibrary/1\)colconToBuildPackage.md)
   * [workspace 생성하기](./2_Beginner:ClientLibrary/2\)creatingWorkspace.md)
   * [package 생성하기](./2_Beginner:ClientLibrary/3\)creatingPackage.md)
-  * [간단한 publisher와 subscriber 작성하기(c++)](./2_Beginner:ClientLibrary/4\)writingPublisherSubscriber.md)
-  * [간단한 publisher와 subscriber 작성하기(python)](./2_Beginner:ClientLibrary/5\)writingPublisherSubscriberPython.md) 
-  * [간단한 service와 client 작성하기(c++)](./2_Beginner:ClientLibrary/6\)writingActionServerClient.md)
-  * [간단한 service와 client 작성하기(python)](./2_Beginner:ClientLibrary/7\)writingActionServerClientPython.md)
+  * [간단한 publisher와 subscriber 작성하기(C++)](./2_Beginner:ClientLibrary/4\)writingPublisherSubscriber.md)
+  * [간단한 publisher와 subscriber 작성하기(Python)](./2_Beginner:ClientLibrary/5\)writingPublisherSubscriberPython.md) 
+  * [간단한 service와 client 작성하기(C++)](./2_Beginner:ClientLibrary/6\)writingActionServerClient.md)
+  * [간단한 service와 client 작성하기(Python)](./2_Beginner:ClientLibrary/7\)writingActionServerClientPython.md)
   * [커스텀 msg와 srv 파일 생성하기](./2_Beginner:ClientLibrary/8\)CreatingCustomMsgAndSrvFiles.md)
   * [custom interface 구현하기](./2_Beginner:ClientLibrary/9\)implementingCustomInterfaces.md)
   * [parameters 사용하기 (C++)](./2_Beginner:ClientLibrary/10\)usingParameter\(중복\).md)
@@ -47,7 +47,7 @@
   * [action server와 client 작성하기 (C++)](./3_Intermediate/3\)writingServiceClient.md)
   * [action server와 client 작성하기 (Python)](./3_Intermediate/4\)writingServiceClientPython.md)
   * [여러 nodes를 하나의 단일 process로 구성하기](./3_Intermediate/5\)ComposingMultipleNodesInSingleProcess.md)
-  * [parameters 변경 모니터링 (c++)](./3_Intermediate/6\)MonitoringForParameterChangesCpp.md)
+  * [parameters 변경 모니터링 (C++)](./3_Intermediate/6\)MonitoringForParameterChangesCpp.md)
 
 
 ## Intermediate : Launch
