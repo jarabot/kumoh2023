@@ -41,7 +41,7 @@ ros2 run turtlesim turtle_teleop_key
 
 ### 2-2 rqt_graph
 * rqt_graph 사용 목적
-  * nodes와 topics의 변화를 시각화
+  * 노드(Node) 간의 토픽, 서비스, 액션과 같은 통신 관계를 시각화
 
 * rqt_graph 실행하는 명령
 ```bash
@@ -244,3 +244,10 @@ average rate: 59.354
 
 ### 2-9 종료하기
 * Ctrl + c 키를 사용하여 동작을 종료시킨다.
+
+
+# Quiz
+
+- '/jaeun(본인이름)' 토픽으로 "hello ros2" 메시지를 10Hz로 발행하고, 이를 echo로 확인하십시오.
+
+- 메시지 타입 : std_msgs/msg/String [링크](http://docs.ros.org/en/noetic/api/std_msgs/html/msg/String.html)

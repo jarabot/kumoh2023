@@ -1,4 +1,4 @@
-# turtlesim, ros2, rqt 사용하기
+# turtlesim과 rqt 사용하기
 1. 소개
 2. 실습
    1. turtlesim 설치하기
@@ -120,3 +120,7 @@ ros2 run turtlesim turtle_teleop_key --ros-args --remap turtle1/cmd_vel:=turtle2
 
 ### 2-7 turtlesim 종료하기
 * 각 터미널에서 Ctrl + C 키를 누르면 종료된다.
+
+
+# Quiz
+ - rqt를 사용하여 'myname'의 거북이를 생성하고, remap을 사용하여 키보드로 'myname' 거북이를 제어 할 수있도록 적용하세요

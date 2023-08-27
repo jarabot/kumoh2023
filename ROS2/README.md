@@ -15,6 +15,7 @@
     ```
 * ROS1 vs ROS2 구조 비교 
 ## Beginner : CLI
+  * [ROS2 소개](./1_Beginner:CLITools/0_ROS2_intruduction.md)
   * [환경설정](./1_Beginner:CLITools/1_Configuring%20environment.md)
   * [turtlesim, ros2, rqt 사용하기](./1_Beginner:CLITools/2_turtlesim_ros2_rqt.md)
   * [nodes 이해](./1_Beginner:CLITools/3_nodes.md)
