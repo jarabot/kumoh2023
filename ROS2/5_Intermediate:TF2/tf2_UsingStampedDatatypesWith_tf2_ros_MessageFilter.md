@@ -1,5 +1,4 @@
 # [tf2_ros::MessageFilter를 활용한 stamped 자료형 사용하기](https://docs.ros.org/en/humble/Tutorials/Intermediate/Tf2/Using-Stamped-Datatypes-With-Tf2-Ros-MessageFilter.html#)
-> **<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 주의:** Message Filter dropping message 버그
 
 1. 목표
 1. 배경지식

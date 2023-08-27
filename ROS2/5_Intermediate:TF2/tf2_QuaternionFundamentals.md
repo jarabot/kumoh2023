@@ -47,6 +47,7 @@ ROS2는 두 개의 쿼터니언 타입이 있다: tf2::Quaternion, geometry_msgs
 C++
 ```cpp
 #include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
+// ros2-foxy 에서는 위 헤더를 직접 다운로드 받아야 함
 ...
 
 tf2::Quaternion tf2_quat, tf2_quat_from_msg;
@@ -73,10 +74,24 @@ quat_tf = [0.0, 1.0, 0.0, 0.0]
 msg_quat = Quaternion(x=quat_tf[0], y=quat_tf[1], z=quat_tf[2], w=quat_tf[3])
 ```
 
+c++에서 사용하려면 CMakeLists.txt에 tf2_geometry_msgs에 대한 의존성을 추가해야 한다.
+```cmake
+find_package(tf2_geometry_msgs REQUIRED)
+...
+
+ament_target_dependencies(
+    <target_name>
+    tf2_geometry_msgs
+    ...
+)
+```
+
+
 ## 쿼터니언 연산
 ### 1. RPY에서 생각하고 쿼터니언으로 변환하기
 축의 회전에 관해 생각하는 것은 쉽지만, 쿼터니언의 관점에서 생각하기란 쉽지 않다. 그렇기 때문에, 롤(x축), 피치(y축), 요(z축)의 관점에서 먼저 대상의 회전을 계산한 다음 쿼터니언으로 변환하는 것이 더 낫다.
 
+python
 ```python
 # quaternion_from_euler method is available in turtle_tf2_py/turtle_tf2_py/turtle_tf2_broadcaster.py
 q = quaternion_from_euler(1.5707, 0, -1.5707)

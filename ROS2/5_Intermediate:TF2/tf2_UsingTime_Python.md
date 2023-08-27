@@ -30,7 +30,7 @@ t = self.tf_buffer.lookup_transform(
 from tf2_ros import LookupException, ConnectivityException, ExtrapolationException
 ```
 
-81번째 라인에, 새로 import될 exception을 추가하고, 디버깅을 위해 raise문을 추가하자.
+81번째 라인 except블럭에 새로 import될 exception을 추가하고, 디버깅을 위해 raise문을 추가하자.
 
 ```python
 except (LookupException, ConnectivityException, ExtrapolationException):

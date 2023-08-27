@@ -26,7 +26,7 @@ ros2 pkg create --build-type ament_python learning_tf2_py
 ```
 
 ### 2. static broadcaster 노드 작성하기
-먼저 소스파일을 작성해보자. 아래의 명령어로 src/learning_tf2_cpp/src 위치에 static broadcaster 코드 예제를 다운로드 해보자.
+먼저 소스파일을 작성해보자. 아래의 명령어로 src/learning_tf2_py/learning_tf2_py 위치에 static broadcaster 코드 예제를 다운로드 해보자.
 
 ```bash
 wget https://raw.githubusercontent.com/ros/geometry_tutorials/ros2/turtle_tf2_py/turtle_tf2_py/static_turtle_tf2_broadcaster.py

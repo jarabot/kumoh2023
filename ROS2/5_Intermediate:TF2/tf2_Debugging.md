@@ -14,7 +14,7 @@
 ### 에제 세팅 및 시작하기
 이번 튜토리얼을 위해, 많은 문제를 갖고 있는 데모 앱을 셋팅할 것이다. 이번 튜토리얼은 이런 문제들을 찾아내고 해결하기 위해 체계적인 접근 방식을 적용하는 것이 목표이다. 먼저 소스 파일을 만들어 보자.
 
-learning_tf_cpp 패키지의 소스 파일 중, turtlr_Tf2_listener.cpp를 복사하여 turtle2_tf2_listener_debug.cpp라는 파일을 만들자.
+learning_tf_cpp 패키지의 소스 파일 중, turtlr_tf2_listener.cpp를 복사하여 turtle_tf2_listener_debug.cpp라는 파일을 만들자.
 
 파일을 열고 67번째 줄을 아래와 같이 수정한다.
 
@@ -93,6 +93,10 @@ ament_target_dependencies(
     tf2_ros
     turtlesim
 )
+
+install(TARGETS
+    turtle_tf2_listener_debug
+    DESTINATION lib/${PROJECT_NAME})
 ```
 
 이제 실행하여 무슨 일이 일어나는지 살펴 보자.
@@ -135,7 +139,7 @@ try {
 
 이것이 우리가 실제로 tf2에 요청하고 있는 것이다. 이 3개의 인자는 now 시점에 turtle3에 대한 turtle1의 transform을 요청을 의미한다.
 
-이제 이제 왜 이러한 요청이 fail되었는지 확인해 보자.
+이제 왜 이러한 요청이 fail되었는지 확인해 보자.
 
 ### 3. 프레임 확인하기
 먼저, tf2가 turtle3와 turtle1간에 transform을 알고있는지 확인하기 위해, tf2_echo 툴을 사용할 것이다.
@@ -163,13 +167,17 @@ ros2 run tf2_tools view_frames
 
 문제는 존재하지 않는 turtle3에 대한 transform요청을 하고 있는 것이다. 이 버그를 수정하기 위해, 67번째 줄의 turtle2를 turtle3로 수정하자.
 
+```cpp
+std::string toFrameRel = "turtle2";
+```
+
 실행중인 데모를 중지하고, 빌드 후 재 실행하자.
 
 ```bash
 ros2 launch learning_tf2_cpp start_tf2_debug_demo.launch.py
 ```
 
-곧바로 다음 문제가 아래와 같이 출려된다.
+곧바로 다음 문제가 아래와 같이 출력된다.
 
 ```
 [turtle_tf2_listener_debug-4] [INFO] [1630223704.617382464] [listener_debug]: Could not

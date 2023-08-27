@@ -60,7 +60,7 @@ tf2는 transform이 사용할 수 있을 때까지 기다리는 유용한 툴을
 rclcpp::Time when = this->get_clock()->now();
 t = tf_buffer_->lookupTransform(
   toFrameRel, fromFrameRel,
-  now, 50ms);
+  when, 50ms);
 ```
 
 lookupTransform()은 4개의 인자를 받아들일 수 있으며, 마지막 timeout은 선택사항이다. lookupTransform()은 timeout될 때까지 이 시간동안 block 된다.
