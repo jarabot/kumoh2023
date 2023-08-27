@@ -9,8 +9,8 @@
    6. ros2 service call
 ## 1. 개요
 * ROS graph 상에서 nodes 사이에서의 또다른 통신 방법 
-* publisher-subscriber 모델 vs. call-and-response 모델
-* topics : publisher가 지속적으로 data stream 을 subscriber에게 제공
+* Publisher-Subscriber 모델 vs. Server-Client 모델
+* topics : publisher가 지속적으로 data stream 을 subscriber에게 제공 
 * services : client가 요청하면 그 요청에 따라서 server가 data를 제공
 
 * 1개 service server와 1개 service client (아래 그림)
@@ -79,7 +79,6 @@ ros2 service list
   * /turtle1/teleport_relative
 
 * 앞에서 rqt를 이용해서 몇 가지 services로 상호작용하는 것을 배웠다.
-  * /clear
   * /spawn
   * /turtle1/set_pen
 
@@ -157,7 +156,7 @@ ros2 interface show <type_name>.srv
 
 * /clear serive의 type인 Empty에 대해서 명령 실행해보기
 ```bash
-ros2 interface show std_srvs/srv/Empty.srv
+ros2 interface show std_srvs/srv/Empty
 ```
 
 * 결과 (Empty type)
@@ -216,3 +215,7 @@ turtlesim.srv.Spawn_Response(name='turtle2')
 ```
 
 ![](https://docs.ros.org/en/humble/_images/spawn1.png)
+
+
+# Quiz
+- 서비스 호출 하여 /turtle1/set_pen 색상을 변경해보세요
