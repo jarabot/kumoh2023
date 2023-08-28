@@ -1,398 +1,311 @@
-[# action server와 client 작성하기(C++)
-1. 소개
-2. 실습
-   1. action_tutorials_cpp package 생성하기
-   2. action server 작성하기
-   3. action client 작성하기
+# [간단한 service와 client 작성하기](https://docs.ros.org/en/humble/Tutorials/Beginner-Client-Libraries/Writing-A-Simple-Cpp-Service-And-Client.html)
+1. 목표
+2. 배경지식
+3. 사전준비
+4. 실습
+   1. package 생성하기
+   2. service node 작성하기
+   3. client node 작성하기
+   4. 빌드 및 실행
+5. 요약
 
-## 1. 소개
-* action server와 client 구현하는 방법 이해
+## 목표
+* service와 client nodes를 C++로 생성하기
+* 생성한 service와 client nodes 실행하기
 
-* action은 ROS내의 비동기 통신
-  * action client가 action server에게 goal request를 전송
-  * action server는 action client에게 goal feedback과 result를 전송
+## 배경지식
+* nodes가 services를 사용하여 통신하는 경우
+  * data에 대한 request를 보내는 node
+    * client node
+  * request에 대한 response를 보내는 node
+    * service node
+* request와 response 구조
+  * .srv 파일로 결정
 
-* 준비
-  * action_tutorials_interfaces package
-  * Fibonacci.action interface
+* 여기서 사용된 예제의 동작
+  * 간단한 정수 더하는 시스템
+  * clinet node는 server에게 2개 정수값을 전달하면서 sum의 결과를 요청(request)
+  * service node는 요청에 대한 결과를 응답(response)으로 전달
 
-## 2. 실습
-### 2-1 action_tutorials_cpp package 생성하기
-* c++ action server를 위한 package 생성하는 명령
-```bash
-cd ~/ros2_ws/src
-ros2 pkg create --dependencies action_tutorials_interfaces rclcpp rclcpp_action rclcpp_components -- action_tutorials_cpp
+## 사전준비
+* workspace 생성 이해
+* package 생성 이해 
+
+## 실습
+###  1. package 생성하기
+* 새 터미널 열기
+* ROS2 환경 source 하기
+* ros2 명령 동작 확인하기
+* 이전 튜터리얼에서 ros2_ws 디렉토리로 가기
+* packages는 반드시 src 디렉토리에 생성해야만 한다. (workspace에 하지 않도록 주의!)
+* ros2_ws/src로 가서 새로운 package 생성하기
+```
+ros2 pkg create --build-type ament_cmake cpp_srvcli --dependencies rclcpp example_interfaces
+```
+* 정상적으로 실행된 경우 cpp_srvcli package 생성 및 필요한 파일과 디렉토리가 생성되었다는 메시지 확인
+
+* --dependencies 인자를 사용하면 자동으로 package.xml과 CMakeLists.txt에 필요한 의존성을 추가시킨다.
+* example_interfaces package는 request와 response에 사용할 .srv 파일을 포함하고 있다.
+```
+int64 a
+int64 b
+---
+int64 sum
+```
+* 첫번째 2줄은 request이고 ---는 아래 response 부분과 구분을 짓는데 사용된다.
+
+### 1.1 package.xml 업데이트하기
+* package 생성시에 --dependencies 옵션을 사용했으므로 수동으로 package.xml과 CMakeLists.txt를 수정할 필요가 없다.
+* 가급적이면 package.xml 파일에 다음 정보를 추가하도록 하자.
+```xml
+<description>C++ client server tutorial</description>
+<maintainer email="you@email.com">Your Name</maintainer>
+<license>Apache License 2.0</license>
 ```
 
-* action_tutorials_cpp/include/action_tutorials_cpp/visibility_control.h 파일 
+###  2. service node 작성하기
+* ros2_ws/src/cpp_srvcli/src 디렉토리 내부에 add_two_ints_server.cpp 파일을 새로 생성하자. 
+* 아래 내용을 add_two_ints_server.cpp 파일에 넣자.
 ```c++
-#ifndef ACTION_TUTORIALS_CPP__VISIBILITY_CONTROL_H_
-#define ACTION_TUTORIALS_CPP__VISIBILITY_CONTROL_H_
+#include "rclcpp/rclcpp.hpp"
+#include "example_interfaces/srv/add_two_ints.hpp"
 
-#ifdef __cplusplus
-extern "C"
+#include <memory>
+
+void add(const std::shared_ptr<example_interfaces::srv::AddTwoInts::Request> request,
+          std::shared_ptr<example_interfaces::srv::AddTwoInts::Response>      response)
 {
-#endif
-
-// This logic was borrowed (then namespaced) from the examples on the gcc wiki:
-//     https://gcc.gnu.org/wiki/Visibility
-
-#if defined _WIN32 || defined __CYGWIN__
-  #ifdef __GNUC__
-    #define ACTION_TUTORIALS_CPP_EXPORT __attribute__ ((dllexport))
-    #define ACTION_TUTORIALS_CPP_IMPORT __attribute__ ((dllimport))
-  #else
-    #define ACTION_TUTORIALS_CPP_EXPORT __declspec(dllexport)
-    #define ACTION_TUTORIALS_CPP_IMPORT __declspec(dllimport)
-  #endif
-  #ifdef ACTION_TUTORIALS_CPP_BUILDING_DLL
-    #define ACTION_TUTORIALS_CPP_PUBLIC ACTION_TUTORIALS_CPP_EXPORT
-  #else
-    #define ACTION_TUTORIALS_CPP_PUBLIC ACTION_TUTORIALS_CPP_IMPORT
-  #endif
-  #define ACTION_TUTORIALS_CPP_PUBLIC_TYPE ACTION_TUTORIALS_CPP_PUBLIC
-  #define ACTION_TUTORIALS_CPP_LOCAL
-#else
-  #define ACTION_TUTORIALS_CPP_EXPORT __attribute__ ((visibility("default")))
-  #define ACTION_TUTORIALS_CPP_IMPORT
-  #if __GNUC__ >= 4
-    #define ACTION_TUTORIALS_CPP_PUBLIC __attribute__ ((visibility("default")))
-    #define ACTION_TUTORIALS_CPP_LOCAL  __attribute__ ((visibility("hidden")))
-  #else
-    #define ACTION_TUTORIALS_CPP_PUBLIC
-    #define ACTION_TUTORIALS_CPP_LOCAL
-  #endif
-  #define ACTION_TUTORIALS_CPP_PUBLIC_TYPE
-#endif
-
-#ifdef __cplusplus
+  response->sum = request->a + request->b;
+  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Incoming request\na: %ld" " b: %ld",
+                request->a, request->b);
+  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "sending back response: [%ld]", (long int)response->sum);
 }
-#endif
 
-#endif  // ACTION_TUTORIALS_CPP__VISIBILITY_CONTROL_H_
-```
-### 2-2 action server 작성하기
-* Fibonacci 수열을 계산하는 action server 작성과정 알아보기
-
-### 2-2-1 action server 코드 작성하기
-* action_tutorials_cpp/src/fibonacci_action_server.cpp 파일 생성 및 복사
-```c++
-#include <functional>
-#include <memory>
-#include <thread>
-
-#include "action_tutorials_interfaces/action/fibonacci.hpp"
-#include "rclcpp/rclcpp.hpp"
-#include "rclcpp_action/rclcpp_action.hpp"
-#include "rclcpp_components/register_node_macro.hpp"
-
-#include "action_tutorials_cpp/visibility_control.h"
-
-namespace action_tutorials_cpp
+int main(int argc, char **argv)
 {
-class FibonacciActionServer : public rclcpp::Node
-{
-public:
-  using Fibonacci = action_tutorials_interfaces::action::Fibonacci;
-  using GoalHandleFibonacci = rclcpp_action::ServerGoalHandle<Fibonacci>;
+  rclcpp::init(argc, argv);
 
-  ACTION_TUTORIALS_CPP_PUBLIC
-  explicit FibonacciActionServer(const rclcpp::NodeOptions & options = rclcpp::NodeOptions())
-  : Node("fibonacci_action_server", options)
-  {
-    using namespace std::placeholders;
+  std::shared_ptr<rclcpp::Node> node = rclcpp::Node::make_shared("add_two_ints_server");
 
-    this->action_server_ = rclcpp_action::create_server<Fibonacci>(
-      this,
-      "fibonacci",
-      std::bind(&FibonacciActionServer::handle_goal, this, _1, _2),
-      std::bind(&FibonacciActionServer::handle_cancel, this, _1),
-      std::bind(&FibonacciActionServer::handle_accepted, this, _1));
-  }
+  rclcpp::Service<example_interfaces::srv::AddTwoInts>::SharedPtr service =
+    node->create_service<example_interfaces::srv::AddTwoInts>("add_two_ints", &add);
 
-private:
-  rclcpp_action::Server<Fibonacci>::SharedPtr action_server_;
+  RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Ready to add two ints.");
 
-  rclcpp_action::GoalResponse handle_goal(
-    const rclcpp_action::GoalUUID & uuid,
-    std::shared_ptr<const Fibonacci::Goal> goal)
-  {
-    RCLCPP_INFO(this->get_logger(), "Received goal request with order %d", goal->order);
-    (void)uuid;
-    return rclcpp_action::GoalResponse::ACCEPT_AND_EXECUTE;
-  }
-
-  rclcpp_action::CancelResponse handle_cancel(
-    const std::shared_ptr<GoalHandleFibonacci> goal_handle)
-  {
-    RCLCPP_INFO(this->get_logger(), "Received request to cancel goal");
-    (void)goal_handle;
-    return rclcpp_action::CancelResponse::ACCEPT;
-  }
-
-  void handle_accepted(const std::shared_ptr<GoalHandleFibonacci> goal_handle)
-  {
-    using namespace std::placeholders;
-    // this needs to return quickly to avoid blocking the executor, so spin up a new thread
-    std::thread{std::bind(&FibonacciActionServer::execute, this, _1), goal_handle}.detach();
-  }
-
-  void execute(const std::shared_ptr<GoalHandleFibonacci> goal_handle)
-  {
-    RCLCPP_INFO(this->get_logger(), "Executing goal");
-    rclcpp::Rate loop_rate(1);
-    const auto goal = goal_handle->get_goal();
-    auto feedback = std::make_shared<Fibonacci::Feedback>();
-    auto & sequence = feedback->partial_sequence;
-    sequence.push_back(0);
-    sequence.push_back(1);
-    auto result = std::make_shared<Fibonacci::Result>();
-
-    for (int i = 1; (i < goal->order) && rclcpp::ok(); ++i) {
-      // Check if there is a cancel request
-      if (goal_handle->is_canceling()) {
-        result->sequence = sequence;
-        goal_handle->canceled(result);
-        RCLCPP_INFO(this->get_logger(), "Goal canceled");
-        return;
-      }
-      // Update sequence
-      sequence.push_back(sequence[i] + sequence[i - 1]);
-      // Publish feedback
-      goal_handle->publish_feedback(feedback);
-      RCLCPP_INFO(this->get_logger(), "Publish feedback");
-
-      loop_rate.sleep();
-    }
-
-    // Check if goal is done
-    if (rclcpp::ok()) {
-      result->sequence = sequence;
-      goal_handle->succeed(result);
-      RCLCPP_INFO(this->get_logger(), "Goal succeeded");
-    }
-  }
-};  // class FibonacciActionServer
-
-}  // namespace action_tutorials_cpp
-
-RCLCPP_COMPONENTS_REGISTER_NODE(action_tutorials_cpp::FibonacciActionServer)
+  rclcpp::spin(node);
+  rclcpp::shutdown();
+}
 ```
-
-* action server가 필요로 하는 6가지
-  1. action type 이름 : Fibonacci
-  2. action을 추가하는 ROS 2 node : this
-  3. action name : 'fibonacci'
-  4. goal관련 callback 함수 : handle_goal
-  5. cancellation 관련 callback 함수 : handle_cancel
-  6. goal accept 관련 callback 함수 : handle_accept
-
-* 새로운 goal을 처리하는 callback :
+### 2.1 code 살펴보기
+* 맨 위에 2개 #include 구문은 내가 작성한 package가 의존하는 부분이다.
+* add 함수는 request로 받은 2개 정수를 더하고 그 합을 response로 사용한다. log를 통해서 status를 콘솔에 알린다.
 ```c++
-  rclcpp_action::GoalResponse handle_goal(
-    const rclcpp_action::GoalUUID & uuid,
-    std::shared_ptr<const Fibonacci::Goal> goal)
-  {
-    RCLCPP_INFO(this->get_logger(), "Received goal request with order %d", goal->order);
-    (void)uuid;
-    return rclcpp_action::GoalResponse::ACCEPT_AND_EXECUTE;
-  }
+void add(const std::shared_ptr<example_interfaces::srv::AddTwoInts::Request> request,
+         std::shared_ptr<example_interfaces::srv::AddTwoInts::Response>      response)
+{
+    response->sum = request->a + request->b;
+    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Incoming request\na: %ld" " b: %ld",
+        request->a, request->b);
+    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "sending back response: [%ld]", (long int)response->sum);
+}
 ```
 
-### 2-2-2 action server 컴파일 하기
-* action_tutorials_cpp/CMakeLists.txt 파일 열고 find_package 호출하는 부분 바로 뒤에 아래 내용 추가하기
+* main 함수는 한줄씩 다음을 수행한다.
+
+  * ROS2 C++ client library 초기화 : 
+```c++
+rclcpp::init(argc, argv);
+```
+
+  * add_two_ints_server 라는 node를 생성 : 
+```c++
+std::shared_ptr<rclcpp::Node> node = rclcpp::Node::make_shared("add_two_ints_server");
+```
+  * 이 node에 대한 add_two_ints 라는 service 생성. &add method로 네트워크 상에서 advertise한다.
+```c++
+rclcpp::Service<example_interfaces::srv::AddTwoInts>::SharedPtr service =
+node->create_service<example_interfaces::srv::AddTwoInts>("add_two_ints", &add);
+```
+  * 준비가 되면 log 메시지를 출력
+```c++
+RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Ready to add two ints.");
+```
+  * node를 spin시키고 service 사용 가능하게 만든다
+```c++
+rclcpp::spin(node);
+```
+
+### 2.2 실행자 추가하기
+* add_executable 매크로는 ros2 run을 사용해서 실행할 수 있는 실행자를 생성한다.
+* CMakeLists.txt에서 server라는 실행자 이름을 생성한다.
 ```cmake
-add_library(action_server SHARED
-  src/fibonacci_action_server.cpp)
-target_include_directories(action_server PRIVATE
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include>)
-target_compile_definitions(action_server
-  PRIVATE "ACTION_TUTORIALS_CPP_BUILDING_DLL")
-ament_target_dependencies(action_server
-  "action_tutorials_interfaces"
-  "rclcpp"
-  "rclcpp_action"
-  "rclcpp_components")
-rclcpp_components_register_node(action_server PLUGIN "action_tutorials_cpp::FibonacciActionServer" EXECUTABLE fibonacci_action_server)
-install(TARGETS
-  action_server
-  ARCHIVE DESTINATION lib
-  LIBRARY DESTINATION lib
-  RUNTIME DESTINATION bin)
+add_executable(server src/add_two_ints_server.cpp)
+ament_target_dependencies(server
+rclcpp example_interfaces)
 ```
-
-* package 컴파일 하기
-```bash
-cd ~/ros2_ws
-colcon build
-```
-
-### 2-2-3 action server 실행하기
-
-* action server 실행하기
-```bash
-source install/setup.bash
-ros2 run action_tutorials_cpp fibonacci_action_server
-```
-
-### 2-3 action client 작성하기
-### 2-3-1 action client 코드 작성하기
-* action_tutorials_cpp/src/fibonacci_action_client.cpp 파일 생성 후 아래 코드 붙여넣기
-```c++
-#include <functional>
-#include <future>
-#include <memory>
-#include <string>
-#include <sstream>
-
-#include "action_tutorials_interfaces/action/fibonacci.hpp"
-
-#include "rclcpp/rclcpp.hpp"
-#include "rclcpp_action/rclcpp_action.hpp"
-#include "rclcpp_components/register_node_macro.hpp"
-
-namespace action_tutorials_cpp
-{
-class FibonacciActionClient : public rclcpp::Node
-{
-public:
-  using Fibonacci = action_tutorials_interfaces::action::Fibonacci;
-  using GoalHandleFibonacci = rclcpp_action::ClientGoalHandle<Fibonacci>;
-
-  explicit FibonacciActionClient(const rclcpp::NodeOptions & options)
-  : Node("fibonacci_action_client", options)
-  {
-    this->client_ptr_ = rclcpp_action::create_client<Fibonacci>(
-      this,
-      "fibonacci");
-
-    this->timer_ = this->create_wall_timer(
-      std::chrono::milliseconds(500),
-      std::bind(&FibonacciActionClient::send_goal, this));
-  }
-
-  void send_goal()
-  {
-    using namespace std::placeholders;
-
-    this->timer_->cancel();
-
-    if (!this->client_ptr_->wait_for_action_server()) {
-      RCLCPP_ERROR(this->get_logger(), "Action server not available after waiting");
-      rclcpp::shutdown();
-    }
-
-    auto goal_msg = Fibonacci::Goal();
-    goal_msg.order = 10;
-
-    RCLCPP_INFO(this->get_logger(), "Sending goal");
-
-    auto send_goal_options = rclcpp_action::Client<Fibonacci>::SendGoalOptions();
-    send_goal_options.goal_response_callback =
-      std::bind(&FibonacciActionClient::goal_response_callback, this, _1);
-    send_goal_options.feedback_callback =
-      std::bind(&FibonacciActionClient::feedback_callback, this, _1, _2);
-    send_goal_options.result_callback =
-      std::bind(&FibonacciActionClient::result_callback, this, _1);
-    this->client_ptr_->async_send_goal(goal_msg, send_goal_options);
-  }
-
-private:
-  rclcpp_action::Client<Fibonacci>::SharedPtr client_ptr_;
-  rclcpp::TimerBase::SharedPtr timer_;
-
-  void goal_response_callback(std::shared_future<GoalHandleFibonacci::SharedPtr> future)
-  {
-    auto goal_handle = future.get();
-    if (!goal_handle) {
-      RCLCPP_ERROR(this->get_logger(), "Goal was rejected by server");
-    } else {
-      RCLCPP_INFO(this->get_logger(), "Goal accepted by server, waiting for result");
-    }
-  }
-
-  void feedback_callback(
-    GoalHandleFibonacci::SharedPtr,
-    const std::shared_ptr<const Fibonacci::Feedback> feedback)
-  {
-    std::stringstream ss;
-    ss << "Next number in sequence received: ";
-    for (auto number : feedback->partial_sequence) {
-      ss << number << " ";
-    }
-    RCLCPP_INFO(this->get_logger(), ss.str().c_str());
-  }
-
-  void result_callback(const GoalHandleFibonacci::WrappedResult & result)
-  {
-    switch (result.code) {
-      case rclcpp_action::ResultCode::SUCCEEDED:
-        break;
-      case rclcpp_action::ResultCode::ABORTED:
-        RCLCPP_ERROR(this->get_logger(), "Goal was aborted");
-        return;
-      case rclcpp_action::ResultCode::CANCELED:
-        RCLCPP_ERROR(this->get_logger(), "Goal was canceled");
-        return;
-      default:
-        RCLCPP_ERROR(this->get_logger(), "Unknown result code");
-        return;
-    }
-    std::stringstream ss;
-    ss << "Result received: ";
-    for (auto number : result.result->sequence) {
-      ss << number << " ";
-    }
-    RCLCPP_INFO(this->get_logger(), ss.str().c_str());
-    rclcpp::shutdown();
-  }
-};  // class FibonacciActionClient
-
-}  // namespace action_tutorials_cpp
-
-RCLCPP_COMPONENTS_REGISTER_NODE(action_tutorials_cpp::FibonacciActionClient)
-```
-
-  * action client에 필요한 3가지
-    1. action type : Fibonacci
-    2. action client를 추가하는 ROS 2 node : this
-    3. action name : 'fibonacci'
-
-### 2-3-2 action client 컴파일하기
-* action_tutorials_cpp/CMakeLists.txt 파일 수정하기 (find_package 부분 바로 뒤에 추가)
+* ros2 run은 실행자를 찾을 수 있다. 파일 끝 부분에 아래 내용을 추가한다. ament_package() 바로 전 위치 
 ```cmake
-add_library(action_client SHARED
-  src/fibonacci_action_client.cpp)
-target_include_directories(action_client PRIVATE
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include>)
-target_compile_definitions(action_client
-  PRIVATE "ACTION_TUTORIALS_CPP_BUILDING_DLL")
-ament_target_dependencies(action_client
-  "action_tutorials_interfaces"
-  "rclcpp"
-  "rclcpp_action"
-  "rclcpp_components")
-rclcpp_components_register_node(action_client PLUGIN "action_tutorials_cpp::FibonacciActionClient" EXECUTABLE fibonacci_action_client)
 install(TARGETS
-  action_client
-  ARCHIVE DESTINATION lib
-  LIBRARY DESTINATION lib
-  RUNTIME DESTINATION bin)
+  server
+  DESTINATION lib/${PROJECT_NAME})
 ```
 
-* package 컴파일하는 명령
+* 이제 package를 빌드한다. 로컬 환경에 대해서 source를 실행한다. 이렇게 하면 실행이 가능하다. 하지만 먼저 client node를 만들어야 전체 시스템으 동작하는 것을 볼 수 있다.
+
+###  3. client node 작성하기
+* ros2_ws/src/cpp_servcli/src 디렉토리 내부에서 add_two_ints_client.cpp라는 파일을 만들고 아래 내용을 붙여넣자.
+```c++
+#include "rclcpp/rclcpp.hpp"
+#include "example_interfaces/srv/add_two_ints.hpp"
+
+#include <chrono>
+#include <cstdlib>
+#include <memory>
+
+using namespace std::chrono_literals;
+
+int main(int argc, char **argv)
+{
+  rclcpp::init(argc, argv);
+
+  if (argc != 3) {
+      RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "usage: add_two_ints_client X Y");
+      return 1;
+  }
+
+  std::shared_ptr<rclcpp::Node> node = rclcpp::Node::make_shared("add_two_ints_client");
+  rclcpp::Client<example_interfaces::srv::AddTwoInts>::SharedPtr client =
+    node->create_client<example_interfaces::srv::AddTwoInts>("add_two_ints");
+
+  auto request = std::make_shared<example_interfaces::srv::AddTwoInts::Request>();
+  request->a = atoll(argv[1]);
+  request->b = atoll(argv[2]);
+
+  while (!client->wait_for_service(1s)) {
+    if (!rclcpp::ok()) {
+      RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Interrupted while waiting for the service. Exiting.");
+      return 0;
+    }
+    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "service not available, waiting again...");
+  }
+
+  auto result = client->async_send_request(request);
+  // Wait for the result.
+  if (rclcpp::spin_until_future_complete(node, result) ==
+    rclcpp::FutureReturnCode::SUCCESS)
+  {
+    RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Sum: %ld", result.get()->sum);
+  } else {
+    RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Failed to call service add_two_ints");
+  }
+
+  rclcpp::shutdown();
+  return 0;
+}
+```
+### 3.1 code 둘러보기
+* service node와 유사하게 다음 코드들은 node를 생성하고 해당 node에 대한 client를 생성한다.
+```c++
+std::shared_ptr<rclcpp::Node> node = rclcpp::Node::make_shared("add_two_ints_client");
+rclcpp::Client<example_interfaces::srv::AddTwoInts>::SharedPtr client =
+  node->create_client<example_interfaces::srv::AddTwoInts>("add_two_ints");
+```
+
+* 다음으로 request를 생성한다. request의 구조는 .srv 파일에서 이전에 정의했었다.
+```c++
+auto request = std::make_shared<example_interfaces::srv::AddTwoInts::Request>();
+request->a = atoll(argv[1]);
+request->b = atoll(argv[2]);
+```
+
+* while loop에서 client가 service node를 찾는데 1초가 주어진다. 만약 찾지 못하면 계속 기다리게 된다.
+```c++
+RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "service not available, waiting again...");
+```
+
+* 만약 client가 cancle되면(터미널에서 Ctrl+c 누르는 경우), 인터럽트가 발생했다는 error log message를 반환한다.
+```c++
+RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Interrupted while waiting for the service. Exiting.");
+  return 0;
+```
+* 다음으로 client는 request를 보내고, 해당 node는 response를 수신할때까지 spin한다.
+
+### 3.2 실행자 추가
+* CMakeLists.txt 에 처리
+  * 실행자 추가하기
+  * 새로운 node에 대한 target 추가
+* 자동으로 생성된 CMakeLists.txt 에서 불필요한 코드들을 삭제하고 나면 아래와 같은 상태가 된다.
+```cmake
+cmake_minimum_required(VERSION 3.5)
+project(cpp_srvcli)
+
+find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(example_interfaces REQUIRED)
+
+add_executable(server src/add_two_ints_server.cpp)
+ament_target_dependencies(server
+  rclcpp example_interfaces)
+
+add_executable(client src/add_two_ints_client.cpp)
+ament_target_dependencies(client
+  rclcpp example_interfaces)
+
+install(TARGETS
+  server
+  client
+  DESTINATION lib/${PROJECT_NAME})
+
+ament_package()
+```
+
+###  4. 빌드 및 실행
+* ros2_ws 디렉토리 내에서 rosdep를 실행한다.
+* rosdep를 실행하면 빌드하기 전에 놓친 의존성을 검사한다.
+
 ```bash
-colcon build
+rosdep install -i --from-path src --rosdistro humble -y
 ```
 
-### 2-3-3 action client 실행하기
-* 먼저 action server가 별도 터미널에서 실행시킴
-* action client 실행하기
+* workspace로 돌아와서 새로운 package를 빌드한다.
 ```bash
-source install/setup.bash
-ros2 run action_tutorials_cpp fibonacci_action_client
+colcon build --packages-select cpp_srvcli
 ```
 
-](https://github.com/subakdev/ROS2Workshop/blob/main/WritingSimpleServiceAndClientCpp.md)https://github.com/subakdev/ROS2Workshop/blob/main/WritingSimpleServiceAndClientCpp.md
+* 새로운 터미널을 열어서 ros2_ws로 이동하고 설정 파일을 source 한다.
+```bash
+. install/setup.bash
+```
+
+* 이제 service node를 실행한다.
+```
+ros2 run cpp_srvcli server
+```
+
+* 터미널은 다음 메시지를 반환하고 나서 대기상태가 된다.
+```
+[INFO] [rclcpp]: Ready to add two ints.
+```
+
+* 새로운 터미널을 열어서 ros2_ws 내부에서 설정 파일을 source 한다. 
+* 아래 명령을 실행하여 client node를 구동시킨다.
+```
+ros2 run cpp_srvcli client 2 3
+```
+
+* 2와 3을 선택하면 client는 아래와 같은 response를 받게 된다.
+```
+[INFO] [rclcpp]: Sum: 5
+```
+
+* service가 실행되고 있는 터미널로 돌아오자. request를 받으면 request로 수신한 data를 log message로 publish한다. 그리고 reponse를 보내준다.
+```
+[INFO] [rclcpp]: Incoming request
+a: 2 b: 3
+[INFO] [rclcpp]: sending back response: [5]
+```
+
+## 요약
+* 2개 nodes를 생성하여 service를 이용하여 request와 response data를 주고 받았다. 
+* 의존성과 실행자를 package 설정 파일에 추가하여 빌드하였다.
+* service/client 시스템이 동작하는 것을 보았다.
