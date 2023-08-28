@@ -1,175 +1,185 @@
-# action server와 client 작성하기(Python)
-1. 소개
+# service와 client 작성하기 (Python)
+1. 개요
 2. 실습
-   1. action server 작성하기
-   2. action client 작성하기
-## 1. 소개
-* action은 ROS내의 비동기 통신
-  * action client가 action server에게 goal request를 전송
-  * action server는 action client에게 goal feedback과 result를 전송
-* 준비
-  * action_tutorials_interfaces package
-  * Fibonacci.action interface
+   1. package 생성하기
+   2. service node 작성하기
+   3. client node 작성하기
+   4. 빌드 및 실행
+## 1. 개요
+* Python으로 service와 client nodes를 생성하고 빌드하기
+* service를 사용해서 nodes간 통신 구현 방법 이해
+* client node
+  * request를 보내는 node
+* server node
+  * request를 수신하고 나서 이에 대한 response를 보내는 node
+* request와 response는 .srv 파일로 정의
 
 ## 2. 실습
-### 2-1 action server 작성하기
-* fibonacci_action_server.py 파일 추가하기 (위치 : ~/action_test)
-```python
-import time
+### 2-1 package 생성하기
+* py_srvcli package 만들기
+```bash
+ros2 pkg create --build-type ament_python py_srvcli --dependencies rclpy example_interfaces
+```
 
+* exampel_interfaces package 내에 .srv 파일 (service에서 주고 받는 구조)
+```
+int64 a
+int64 b
+---
+int64 sum
+```
+
+### 2-1-1 package.xml 업데이트하기
+* package.xml
+```xml
+<description>Python client server tutorial</description>
+<maintainer email="you@email.com">Your Name</maintainer>
+<license>Apache License 2.0</license>
+```
+
+### 2-1-2 setup.py 업데이트
+* setup.py
+```python
+maintainer='Your Name',
+maintainer_email='you@email.com',
+description='Python client server tutorial',
+license='Apache License 2.0',
+```
+
+### 2-2 service node 작성하기
+* ros2_ws/src/py_srvcli/py_srvcli/service_member_function.py 파일 만들기
+* service_member_function.py 파일 열어서 아래 코드 붙여넣기
+```python
+from example_interfaces.srv import AddTwoInts
 
 import rclpy
-from rclpy.action import ActionServer
 from rclpy.node import Node
 
-from action_tutorials_interfaces.action import Fibonacci
 
-
-class FibonacciActionServer(Node):
+class MinimalService(Node):
 
     def __init__(self):
-        super().__init__('fibonacci_action_server')
-        self._action_server = ActionServer(
-            self,
-            Fibonacci,
-            'fibonacci',
-            self.execute_callback)
+        super().__init__('minimal_service')
+        self.srv = self.create_service(AddTwoInts, 'add_two_ints', self.add_two_ints_callback)
 
-    def execute_callback(self, goal_handle):
-        self.get_logger().info('Executing goal...')
+    def add_two_ints_callback(self, request, response):
+        response.sum = request.a + request.b
+        self.get_logger().info('Incoming request\na: %d b: %d' % (request.a, request.b))
 
-
-        feedback_msg = Fibonacci.Feedback()
-
-        feedback_msg.partial_sequence = [0, 1]
-
-
-        for i in range(1, goal_handle.request.order):
-
-            feedback_msg.partial_sequence.append(
-
-                feedback_msg.partial_sequence[i] + feedback_msg.partial_sequence[i-1])
-
-            self.get_logger().info('Feedback: {0}'.format(feedback_msg.partial_sequence))
-
-            goal_handle.publish_feedback(feedback_msg)
-
-            time.sleep(1)
-
-
-        goal_handle.succeed()
-
-        result = Fibonacci.Result()
-
-        result.sequence = feedback_msg.partial_sequence
-
-        return result
+        return response
 
 
 def main(args=None):
     rclpy.init(args=args)
 
-    fibonacci_action_server = FibonacciActionServer()
+    minimal_service = MinimalService()
 
-    rclpy.spin(fibonacci_action_server)
+    rclpy.spin(minimal_service)
+
+    rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()
+```
+### 2-2-1 entry point 추가하기
+* ros2 run 명령으로 service 를 실행시키기 위해서 entry point 설정 필요 (setup.py 파일)
+ 
+* ros2_ws/src/py_srvcli/setup.py 파일 열기
+* 'console_scripts': 부분에 아래 추가하기
+```
+'service = py_srvcli.service_member_function:main',
+```
+
+### 2-3 client node 작성하기
+* ros2_ws/src/py_srvcli/py_srvcli/client_member_function.py 파일 추가하기
+```python
+import sys
+
+from example_interfaces.srv import AddTwoInts
+import rclpy
+from rclpy.node import Node
+
+
+class MinimalClientAsync(Node):
+
+    def __init__(self):
+        super().__init__('minimal_client_async')
+        self.cli = self.create_client(AddTwoInts, 'add_two_ints')
+        while not self.cli.wait_for_service(timeout_sec=1.0):
+            self.get_logger().info('service not available, waiting again...')
+        self.req = AddTwoInts.Request()
+
+    def send_request(self, a, b):
+        self.req.a = a
+        self.req.b = b
+        self.future = self.cli.call_async(self.req)
+        rclpy.spin_until_future_complete(self, self.future)
+        return self.future.result()
+
+
+def main(args=None):
+    rclpy.init(args=args)
+
+    minimal_client = MinimalClientAsync()
+    response = minimal_client.send_request(int(sys.argv[1]), int(sys.argv[2]))
+    minimal_client.get_logger().info(
+        'Result of add_two_ints: for %d + %d = %d' %
+        (int(sys.argv[1]), int(sys.argv[2]), response.sum))
+
+    minimal_client.destroy_node()
+    rclpy.shutdown()
 
 
 if __name__ == '__main__':
     main()
 ```
 
-* action server 실행하기
-```bash
-python3 fibonacci_action_server.py
-```
-
-* 새 터미널에서 goal 전송하는 명령 실행
-```bash
-ros2 action send_goal fibonacci action_tutorials_interfaces/action/Fibonacci "{order: 5}"
-```
-
-* action server 재시작(--feedback 옵션으로 feedback이 publish되고 있는지 확인)
-```bash
-ros2 action send_goal --feedback fibonacci action_tutorials_interfaces/action/Fibonacci "{order: 5}"
-```
-
-### 2-2 action client 작성하기
-* fibonacci_action_client.py 파일 생성 및 복사하기
+### 2-3-1 entry point 추가하기
+* setup.py 파일 내부에 entry_points 필드에 client 부분 추가하기
 ```python
-import rclpy
-from rclpy.action import ActionClient
-from rclpy.node import Node
-
-from action_tutorials_interfaces.action import Fibonacci
-
-
-class FibonacciActionClient(Node):
-
-    def __init__(self):
-        super().__init__('fibonacci_action_client')
-        self._action_client = ActionClient(self, Fibonacci, 'fibonacci')
-
-    def send_goal(self, order):
-        goal_msg = Fibonacci.Goal()
-        goal_msg.order = order
-
-        self._action_client.wait_for_server()
-
-        self._send_goal_future = self._action_client.send_goal_async(goal_msg, feedback_callback=self.feedback_callback)
-
-        self._send_goal_future.add_done_callback(self.goal_response_callback)
-
-    def goal_response_callback(self, future):
-        goal_handle = future.result()
-        if not goal_handle.accepted:
-            self.get_logger().info('Goal rejected :(')
-            return
-
-        self.get_logger().info('Goal accepted :)')
-
-        self._get_result_future = goal_handle.get_result_async()
-        self._get_result_future.add_done_callback(self.get_result_callback)
-
-    def get_result_callback(self, future):
-        result = future.result().result
-        self.get_logger().info('Result: {0}'.format(result.sequence))
-        rclpy.shutdown()
-
-    def feedback_callback(self, feedback_msg):
-        feedback = feedback_msg.feedback
-        self.get_logger().info('Received feedback: {0}'.format(feedback.partial_sequence))
-
-
-def main(args=None):
-    rclpy.init(args=args)
-
-    action_client = FibonacciActionClient()
-
-    action_client.send_goal(10)
-
-    rclpy.spin(action_client)
-
-
-if __name__ == '__main__':
-    main()
+entry_points={
+    'console_scripts': [
+        'service = py_srvcli.service_member_function:main',
+        'client = py_srvcli.client_member_function:main',
+    ],
+},
 ```
 
-* 먼저 action server를 실행하기
+### 2-4 빌드 및 실행
+* 의존성 검사하기
 ```bash
-python3 fibonacci_action_server.py
+rosdep install -i --from-path src --rosdistro humble -y
 ```
 
-* 새 터미널에서 action client 실행하기
+* py_srvcli package 빌드하기
 ```bash
-python3 fibonacci_action_client.py
+cd ~/ros2_ws
+colcon build --packages-select py_srvcli
 ```
 
-* 결과 (action server 출력)
+* service node 실행하기 - 새 터미널 열고 아래 명령 실행
+```bash
+source install/setup.bash
+ros2 run py_srvcli service
 ```
-[INFO] [fibonacci_action_server]: Executing goal...
-[INFO] [fibonacci_action_server]: Feedback: array('i', [0, 1, 1])
-[INFO] [fibonacci_action_server]: Feedback: array('i', [0, 1, 1, 2])
-[INFO] [fibonacci_action_server]: Feedback: array('i', [0, 1, 1, 2, 3])
-[INFO] [fibonacci_action_server]: Feedback: array('i', [0, 1, 1, 2, 3, 5])
-# etc.
+
+* client node 실행하기 - 새 터미널 열고 아래 명령 실행
+```bash
+source install/setup.bash
+ros2 run py_srvcli client 2 3
 ```
+
+* client 실행 터미널 결과
+```
+[INFO] [minimal_client_async]: Result of add_two_ints: for 2 + 3 = 5
+```
+
+* server 실행 터미널 결과
+```
+[INFO] [minimal_service]: Incoming request
+a: 2 b: 3
+```
+
+* 실행 종료하기
+  * Ctrl + C
