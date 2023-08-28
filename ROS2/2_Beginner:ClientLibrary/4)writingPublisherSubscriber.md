@@ -334,3 +334,19 @@ entry_points={
                 'number_subscriber = my_publisher_subscriber.publisher_subscriber_node:main',
         ],
 ```
+
+
+Cmake수정
+
+add_executable(distance_pub src/distance_publisher.cpp)
+ament_target_dependencies(distance_pub rclcpp std_msgs)
+
+add_executable(distance_sub src/distance_subscriber.cpp)
+ament_target_dependencies(distance_sub rclcpp std_msgs)
+
+install(TARGETS
+  talker
+  listener
+  distance_pub
+  distance_sub
+  DESTINATION lib/${PROJECT_NAME})
