@@ -265,6 +265,8 @@ ros2 run cpp_pubsub listener
 아래의 코드를 수정하세요 
 distance_publisher.cpp
 ```cpp
+#include "rclcpp/rclcpp.hpp"
+#include "std_msgs/msg/float64.hpp"
 
 class DistancePublisher : public rclcpp::Node
 {
@@ -272,7 +274,7 @@ public:
     DistancePublisher()
         : Node("distance_publisher")
     {
-        //publisher_선언 
+        publisher_ = this->create_publisher<std_msgs::msg::Float64>("distance", 10);
         timer_ = this->create_wall_timer(std::chrono::seconds(1), std::bind(&DistancePublisher::publish_distance, this));
     }
 
@@ -280,11 +282,9 @@ private:
     void publish_distance()
     {
         auto message = std_msgs::msg::Float64();
-
-        // 가상의 거리 값을 설정합니다. 여기서는 3.14로 설정합니다.
         message.data = 3.14;
         RCLCPP_INFO(this->get_logger(), "Publishing Distance: %.2f", message.data);
-
+        publisher_->publish(message);
     }
 
     rclcpp::Publisher<std_msgs::msg::Float64>::SharedPtr publisher_;
@@ -298,7 +298,6 @@ int main(int argc, char *argv[])
     rclcpp::shutdown();
     return 0;
 }
-
 ```
 
 distance_subscriber.cpp
