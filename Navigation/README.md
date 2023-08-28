@@ -32,3 +32,10 @@
 * [Nav2 Plugins 목록](https://navigation.ros.org/plugins/index.html)
 
 ## 4. Lifecycle Manager
+| State | Description | Transitions |
+| --- | --- | --- |
+| Unconfigured | The node is not configured. | configure |
+| Inactive | The node is configured but not active. | activate, cleanup |
+| Active | The node is active. | deactivate, cleanup |
+| Finalized | The node is inactive and cannot be reactivated. | cleanup |
+
