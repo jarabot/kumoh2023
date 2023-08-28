@@ -323,3 +323,14 @@ int main(int argc, char *argv[])
 }
 
 ```
+
+setup.py 수정 
+
+setup.py
+```python
+entry_points={
+        'console_scripts': [
+                'number_publisher = my_publisher_subscriber.publisher_subscriber_node:main',
+                'number_subscriber = my_publisher_subscriber.publisher_subscriber_node:main',
+        ],
+```
