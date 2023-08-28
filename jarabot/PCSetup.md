@@ -10,7 +10,7 @@ sudo apt install ros-humble-serial-driver ros-humble-teleop-twist-keyboard
 #export ROS_LOCALHOST_ONLY=1 이부분은 코멘트처리하기
 
 #~/.bashrc 파일에 맨 아래에 추가 ID 값은 각 조별로 1~10까지 설정
-export export ROS_DOMAIN_ID=2
+export ROS_DOMAIN_ID=2
 ```
 
 ## 방화벽 풀기(ROS_DOMAIN_ID 통신을 위해서)
