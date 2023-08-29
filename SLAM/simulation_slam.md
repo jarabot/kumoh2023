@@ -1,3 +1,46 @@
+# Turtlebot 4 Common
+## Source 설치
+```bash
+mkdir -p ~/turtlebot4_ws/src
+cd ~/turtlebot4_ws/src
+git clone https://github.com/turtlebot/turtlebot4.git -b humble
+
+cd ~/turtlebot4_ws
+rosdep install --from-path src -yi --rosdistro humble
+
+colcon build --symlink-install
+```
+
+## Navigation
+* turtlebot 4 packages는 SLAM과 navigation을 사용하기 위한 launch와 configuration을 포함
+* Launch 파일
+```
+Nav2 : Nav2 stack을 실행
+SLAM : slam_toolbox를 실행 (online mapping)
+Localization : 주어진 map에서 localization을 실행
+```
+
+* 동기식 SLAM 실행
+```bash
+ros2 launch turtlebot4_navigation slam.launch.py
+```
+
+* 비동기식 SLAM 실행
+```bash
+ros2 launch turtlebot4_navigation slam.launch.py sync:=false
+```
+
+* 기존 map으로 localization 실행
+```bash
+ros2 launch turtlebot4_navigation localization.launch.py map:=/path/to/map.yaml
+```
+
+
+* Nav2 stack 실행
+```bash
+ros2 launch turtlebot4_navigation nav2.launch.py
+```
+
 # Turtlebot4 Simulation 환경 설정
 * 목차
   1. Dev Tools
