@@ -17,6 +17,12 @@
 ```bash
 cd ~/ros2_ws
 source install/setup.bash
+ros2 launch jarabot_node bringup.launch.py #절대경로 사용
+```
+
+```bash
+cd ~/ros2_ws
+source install/setup.bash
 ros2 launch jarabot_node navigate.launch.py map:=$HOME/map.yaml #절대경로 사용
 ```
 
