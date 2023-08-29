@@ -1,6 +1,9 @@
 # Turtlebot 4 Common
 ## Source 설치
 ```bash
+sudo rosdep init
+rosdep update
+
 mkdir -p ~/turtlebot4_ws/src
 cd ~/turtlebot4_ws/src
 git clone https://github.com/turtlebot/turtlebot4.git -b humble
