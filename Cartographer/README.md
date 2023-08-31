@@ -12,8 +12,7 @@
 [![Video](http://img.youtube.com/vi/L51S2RVu-zc/0.jpg)](http://www.youtube.com/watch?v=L51S2RVu-zc)
 
 ----
-[Modern SLAM: Cartographer](https://docs.google.com/presentation/d/1Mu0wfZPhv4oi-NGrm1l6pnk8sFb9CPr2mBsDlThm0Pc/edit#slide=id.p
-)
+
 
 ## 구성
 1. Input
