@@ -31,13 +31,9 @@
 * [custom interface 구현하기](./ROS2/2_Beginner:ClientLibrary/9\)implementingCustomInterfaces.md)
 * [parameters 사용하기 (C++)](./ROS2/2_Beginner:ClientLibrary/10\)usingParameter\(중복\).md)
 * [parameters 사용하기 (Python)](./ROS2/2_Beginner:ClientLibrary/11\)usingParameterPython\(중복\).md)
-* [rosdoctor 사용해서 issues 확인하기](./ROS2/2_Beginner:ClientLibrary/12\)UsingRos2doctorToIdentifyIssues.md)
 * [plugins 생성하고 사용하기 (C++)](./ROS2/2_Beginner:ClientLibrary/13\)CreatingAndUsingPluginsCpp.md)
 * [action server/client 작성 (C++)](./ROS2/2_Beginner:ClientLibrary/6\)writingActionServerClient.md)
 * [action server/client 작성 (Python)](./ROS2/2_Beginner:ClientLibrary/7\)writingActionServerClientPython.md)
-* [launch 파일 생성하기](./ROS2/4_Intermediate:Launch/1\)CreatingLaunchFile.md)
-* [launch 파일을 ROS2 packages로 통합시키기](./ROS2/4_Intermediate:Launch/2\)IntegratingLaunchFilesIntoROS2Packages.md)
-* [substitutions 사용하기](./ROS2/4_Intermediate:Launch/3\)UsingSubstitutions.md)
 ---
 * [tf2 소개](./ROS2/5_Intermediate:TF2/tf2_IntroducingTF2.md)
 * [static broadcaster 작성하기(C++)](./ROS2/5_Intermediate:TF2/tf2_WritingAStaticBroadcaster_C++.md)
